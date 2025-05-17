@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Rutas
-app.use('/', pageRoutes);
+app.use('/home', pageRoutes);
 // Rutas
 app.use('/api/productos', productRoutes);
 
