@@ -38,7 +38,7 @@ RETURNS TABLE (
 DECLARE
     new_product_id INTEGER;
 BEGIN
-    INSERT INTO productos (nombre, precio, stock) VALUES (p_nombre, p_precio, p_stock) RETURNING id INTO new_product_id;
+    INSERT INTO productos (nombre, precio, stock) VALUES (p_nombre, p_precio, p_stock) RETURNING productos.id INTO new_product_id;
     RETURN QUERY SELECT p.id, p.nombre, p.precio, p.stock, p.fecha_creacion FROM productos p WHERE p.id = new_product_id;
 END;
 $$ LANGUAGE plpgsql;
@@ -53,7 +53,7 @@ RETURNS TABLE (
     fecha_creacion TIMESTAMP WITH TIME ZONE
 ) AS $$
 BEGIN
-    UPDATE productos SET nombre = p_nombre, precio = p_precio, stock = p_stock WHERE id = p_id;
+    UPDATE productos SET nombre = p_nombre, precio = p_precio, stock = p_stock WHERE productos.id = p_id;
     RETURN QUERY SELECT p.id, p.nombre, p.precio, p.stock, p.fecha_creacion FROM productos p WHERE p.id = p_id;
 END;
 $$ LANGUAGE plpgsql;
@@ -66,7 +66,7 @@ RETURNS TABLE (
 DECLARE
     rows_deleted INTEGER;
 BEGIN
-    DELETE FROM productos WHERE id = p_id;
+    DELETE FROM productos WHERE productos.id = p_id;
     GET DIAGNOSTICS rows_deleted = ROW_COUNT;
     RETURN QUERY SELECT rows_deleted;
 END;
